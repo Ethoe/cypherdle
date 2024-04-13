@@ -1,7 +1,8 @@
 <template>
   <div class="parent">
     <h1>Cypherdle: Guess the Quote</h1>
-    <h3 v-if="completed">{{ "You Won!" }}</h3>
+    <h3 v-if="completed">You Won in {{ guesses }} guesses!</h3>
+    <h3 v-if="completed">Minimum guesses is {{ minGuesses }}.</h3>
     <div class="top">
       <div
         class="letter"
@@ -39,6 +40,8 @@ export default {
       currentSelection: "",
       typedLetter: "",
       completed: false,
+      guesses: 0,
+      minGuesses: 0,
     };
   },
   async created() {
@@ -51,6 +54,7 @@ export default {
       //var quote = "Hello!, Hello!, Hello!, Hello!, Hello!";
       const lettersString = quote.toLowerCase().replace(/[^a-zA-Z]/g, "");
       const uniqueLetters = Array.from(new Set(lettersString.split("")));
+      this.minGuesses = Object.keys(uniqueLetters).length;
 
       const letterGuesses = {};
       uniqueLetters.forEach((letter) => {
@@ -91,6 +95,9 @@ export default {
       if (this.isLetter(typedLetter)) {
         this.typedLetter = typedLetter;
         this.guessTable[this.typedLetter] = this.typedLetter;
+        if (this.isLetter(this.currentSelection)) {
+          this.guesses++;
+        }
         this.checkAllLettersGuessed();
       }
     },
