@@ -12,6 +12,7 @@
     "core-js": "^3.8.3",
     "cors": "^2.8.5",
     "express": "^4.19.2",
+    "node-cache": "^5.1.2",
     "vue": "^3.2.13"
   },
   "devDependencies": {
