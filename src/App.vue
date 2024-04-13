@@ -46,7 +46,7 @@ export default {
   },
   async created() {
     try {
-      const response = await axios.get("https://zenquotes.io/api/today");
+      const response = await axios.get("http://localhost:3000/api/quotes");
       const quote = response.data[0].q; // Extract the quote from the response
       //var quote = "Hello!, Hello!, Hello!, Hello!, Hello!";
       const lettersString = quote.toLowerCase().replace(/[^a-zA-Z]/g, "");
