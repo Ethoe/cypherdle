@@ -46,10 +46,7 @@ export default {
   },
   async created() {
     try {
-      const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-      const response = await axios.get(
-        proxyUrl + "https://zenquotes.io/api/today"
-      );
+      const response = await axios.get("https://zenquotes.io/api/today");
       const quote = response.data[0].q; // Extract the quote from the response
       //var quote = "Hello!, Hello!, Hello!, Hello!, Hello!";
       const lettersString = quote.toLowerCase().replace(/[^a-zA-Z]/g, "");
