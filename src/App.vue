@@ -19,7 +19,7 @@
         />
       </div>
     </div>
-    <input ref="inputBox" @keydown="handleKeyDown" />
+    <input ref="inputBox" @keydown="handleKeyDown" @focus="handleInputFocus" />
   </div>
 </template>
 
@@ -97,6 +97,9 @@ export default {
         }
         this.checkAllLettersGuessed();
       }
+    },
+    handleInputFocus(event) {
+      event.preventDefault();
     },
     checkAllLettersGuessed() {
       const allGuessed = Object.values(this.guessTable).every(
