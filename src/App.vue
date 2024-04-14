@@ -181,6 +181,7 @@ h3 {
   min-height: 100vh; /* Ensure the app container fills the viewport height */
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .main-content {
@@ -191,6 +192,13 @@ h3 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow-y: auto;
+  padding-bottom: 175px;
+}
+@media (max-width: 768px) {
+  .main-content {
+    padding-bottom: 127px;
+  }
 }
 
 div.top {
@@ -217,9 +225,7 @@ div.letter {
   margin: 5px;
 }
 
-/* Responsive styling using media queries */
 @media (max-width: 768px) {
-  /* Adjust div.letter styles for smaller screens */
   div.letter {
     width: 60px;
     height: 80px;
@@ -228,7 +234,6 @@ div.letter {
 }
 
 @media (max-width: 480px) {
-  /* Further adjust div.letter styles for even smaller screens */
   div.letter {
     width: 40px;
     height: 60px;
@@ -241,6 +246,8 @@ div.letter {
   bottom: 0;
   left: 0;
   width: 100%;
+  height: 150px;
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -276,6 +283,7 @@ div.letter {
   .virtual-keyboard {
     padding: 5px;
     max-height: 50vh;
+    height: 102px;
   }
 
   .keyboard-row {
@@ -286,8 +294,7 @@ div.letter {
     width: 30px;
     height: 30px;
     font-size: 14px;
-    margin: 3px;
-    text-align: center;
+    margin: 2px;
   }
 }
 </style>
