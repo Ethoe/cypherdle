@@ -19,7 +19,35 @@
         />
       </div>
     </div>
-    <input ref="inputBox" @keydown="handleKeyDown" @focus="handleInputFocus" />
+    <div class="virtual-keyboard">
+      <div class="keyboard-row">
+        <button
+          v-for="letter in row1"
+          :key="letter"
+          @click="handleMobileInput(letter)"
+        >
+          {{ letter }}
+        </button>
+      </div>
+      <div class="keyboard-row">
+        <button
+          v-for="letter in row2"
+          :key="letter"
+          @click="handleMobileInput(letter)"
+        >
+          {{ letter }}
+        </button>
+      </div>
+      <div class="keyboard-row">
+        <button
+          v-for="letter in row3"
+          :key="letter"
+          @click="handleMobileInput(letter)"
+        >
+          {{ letter }}
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -42,12 +70,16 @@ export default {
       completed: false,
       guesses: 0,
       minGuesses: 0,
+      row1: "qwertyuiop".toUpperCase().split(""),
+      row2: "asdfghjkl".toUpperCase().split(""),
+      row3: "zxcvbnm".toUpperCase().split(""),
     };
   },
   async created() {
     try {
       const response = await axios.get("https://ethoe.dev/api/quotes");
       const quote = response.data[0].q; // Extract the quote from the response
+      this.cypher = response.data[0].a.length;
       //var quote = "Hello!, Hello!, Hello!, Hello!, Hello!";
       const lettersString = quote.toLowerCase().replace(/[^a-zA-Z]/g, "");
       const uniqueLetters = Array.from(new Set(lettersString.split("")));
@@ -81,14 +113,22 @@ export default {
       this.currentSelection = " ";
       this.typedLetter = " ";
       this.currentSelection = letter;
-      this.$refs.inputBox.focus();
+    },
+    handleMobileInput(letter) {
+      // Handle touch/click on virtual keyboard button
+      this.typedLetter = letter;
+      this.guessTable[this.typedLetter] = this.typedLetter;
+      if (this.isLetter(this.currentSelection)) {
+        this.guesses++;
+      }
+      this.checkAllLettersGuessed();
     },
     isLetter(letter) {
       return /^[a-zA-Z]$/.test(letter);
     },
     handleKeyDown(event) {
       event.preventDefault();
-      const typedLetter = event.key;
+      const typedLetter = event.key.toLowerCase();
       if (this.isLetter(typedLetter)) {
         this.typedLetter = typedLetter;
         this.guessTable[this.typedLetter] = this.typedLetter;
@@ -110,6 +150,12 @@ export default {
         this.completed = true;
       }
     },
+  },
+  mounted() {
+    document.addEventListener("keydown", this.handleKeyDown);
+  },
+  beforeUnmount() {
+    document.removeEventListener("keydown", this.handleKeyDown);
   },
 };
 </script>
@@ -142,5 +188,59 @@ div.letter {
   width: 80px;
   height: 100px;
   margin: 5px;
+}
+
+.virtual-keyboard {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  background-color: #fff;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  overflow: auto; /* Enable scrolling if keyboard exceeds viewport height */
+}
+
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+}
+
+.virtual-keyboard button {
+  width: 40px;
+  height: 40px;
+  font-size: 16px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+.virtual-keyboard button:hover {
+  background-color: #ddd;
+}
+
+/* Responsive styles using media queries */
+@media (max-width: 768px) {
+  /* Adjust styles for mobile devices */
+  .virtual-keyboard {
+    padding: 5px;
+    max-height: 50vh; /* Limit height to 50% of viewport height */
+  }
+
+  .keyboard-row {
+    flex-wrap: wrap; /* Allow keyboard rows to wrap */
+  }
+
+  .virtual-keyboard button {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+    margin: 3px;
+  }
 }
 </style>
