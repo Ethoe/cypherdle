@@ -196,6 +196,7 @@ h3 {
 div.top {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   .selected {
     background-color: #556ae6;
   }
@@ -214,6 +215,25 @@ div.letter {
   width: 80px;
   height: 100px;
   margin: 5px;
+}
+
+/* Responsive styling using media queries */
+@media (max-width: 768px) {
+  /* Adjust div.letter styles for smaller screens */
+  div.letter {
+    width: 60px;
+    height: 80px;
+    margin: 3px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Further adjust div.letter styles for even smaller screens */
+  div.letter {
+    width: 40px;
+    height: 60px;
+    margin: 2px;
+  }
 }
 
 .virtual-keyboard {
@@ -245,6 +265,7 @@ div.letter {
   border-radius: 5px;
   background-color: #918d8d;
   cursor: pointer;
+  text-align: center;
 }
 
 .virtual-keyboard button:hover {
@@ -266,6 +287,7 @@ div.letter {
     height: 30px;
     font-size: 14px;
     margin: 3px;
+    text-align: center;
   }
 }
 </style>
