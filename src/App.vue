@@ -1,64 +1,68 @@
 <template>
-  <div class="parent">
-    <h1>Cypherdle: Guess the Quote</h1>
-    <h3 v-if="completed">You Won in {{ guesses }} guesses!</h3>
-    <h3 v-if="completed">Minimum guesses is {{ minGuesses }}.</h3>
-    <div class="top">
-      <div
-        class="letter"
-        v-for="letter in statement"
-        :key="letter"
-        @click="handleClick(letter)"
-        :class="{ selected: isSelected(letter), win: completed }"
-      >
-        <CypherLetter
-          :letter="letter"
-          :cypher="cypher"
-          :current="currentSelection"
-          :currentTyped="typedLetter"
-        />
-      </div>
-    </div>
-    <div class="virtual-keyboard">
-      <div class="keyboard-row">
-        <button
-          v-for="letter in row1"
+  <div class="app">
+    <HeaderComponent title="Cypherdle: Guess the Quote" />
+    <main class="main-content">
+      <h3 v-if="completed">You Won in {{ guesses }} guesses!</h3>
+      <h3 v-if="completed">Minimum guesses is {{ minGuesses }}.</h3>
+      <div class="top">
+        <div
+          class="letter"
+          v-for="letter in statement"
           :key="letter"
-          @click="handleMobileInput(letter)"
+          @click="handleClick(letter)"
+          :class="{ selected: isSelected(letter), win: completed }"
         >
-          {{ letter }}
-        </button>
+          <CypherLetter
+            :letter="letter"
+            :cypher="cypher"
+            :current="currentSelection"
+            :currentTyped="typedLetter"
+          />
+        </div>
       </div>
-      <div class="keyboard-row">
-        <button
-          v-for="letter in row2"
-          :key="letter"
-          @click="handleMobileInput(letter)"
-        >
-          {{ letter }}
-        </button>
+      <div class="virtual-keyboard">
+        <div class="keyboard-row">
+          <button
+            v-for="letter in row1"
+            :key="letter"
+            @click="handleMobileInput(letter)"
+          >
+            {{ letter }}
+          </button>
+        </div>
+        <div class="keyboard-row">
+          <button
+            v-for="letter in row2"
+            :key="letter"
+            @click="handleMobileInput(letter)"
+          >
+            {{ letter }}
+          </button>
+        </div>
+        <div class="keyboard-row">
+          <button
+            v-for="letter in row3"
+            :key="letter"
+            @click="handleMobileInput(letter)"
+          >
+            {{ letter }}
+          </button>
+        </div>
       </div>
-      <div class="keyboard-row">
-        <button
-          v-for="letter in row3"
-          :key="letter"
-          @click="handleMobileInput(letter)"
-        >
-          {{ letter }}
-        </button>
-      </div>
-    </div>
+    </main>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import CypherLetter from "./components/CypherLetter.vue";
+import HeaderComponent from "./components/Header.vue";
 
 export default {
   name: "App",
   components: {
     CypherLetter,
+    HeaderComponent,
   },
   data() {
     return {
@@ -160,13 +164,35 @@ export default {
 };
 </script>
 
+<style>
+body {
+  margin: 0;
+  background-color: #303033; /* Set background color for the body */
+}
+</style>
+
 <style scoped>
-div.parent {
+h3 {
+  color: #fff;
+}
+.app {
+  font-family: Arial, sans-serif;
+  background-color: #303033;
+  min-height: 100vh; /* Ensure the app container fills the viewport height */
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
+
 div.top {
   display: flex;
   flex-wrap: wrap;
@@ -199,9 +225,9 @@ div.letter {
   flex-direction: column;
   align-items: center;
   padding: 10px;
-  background-color: #fff;
+  background-color: #303033;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-  overflow: auto; /* Enable scrolling if keyboard exceeds viewport height */
+  overflow: auto;
 }
 
 .keyboard-row {
@@ -212,11 +238,12 @@ div.letter {
 .virtual-keyboard button {
   width: 40px;
   height: 40px;
-  font-size: 16px;
+  font-size: 20px;
+  color: #f3f1f1;
   margin: 5px;
-  border: 1px solid #ccc;
+  border: 1px solid #918d8d;
   border-radius: 5px;
-  background-color: #f0f0f0;
+  background-color: #918d8d;
   cursor: pointer;
 }
 
@@ -224,16 +251,14 @@ div.letter {
   background-color: #ddd;
 }
 
-/* Responsive styles using media queries */
 @media (max-width: 768px) {
-  /* Adjust styles for mobile devices */
   .virtual-keyboard {
     padding: 5px;
-    max-height: 50vh; /* Limit height to 50% of viewport height */
+    max-height: 50vh;
   }
 
   .keyboard-row {
-    flex-wrap: wrap; /* Allow keyboard rows to wrap */
+    flex-wrap: wrap;
   }
 
   .virtual-keyboard button {

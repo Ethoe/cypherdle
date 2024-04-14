@@ -21,7 +21,7 @@ export default {
   },
   data() {
     return {
-      guess: "_",
+      guess: "__",
     };
   },
   computed: {
@@ -70,6 +70,22 @@ export default {
 
 <style scoped>
 div {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+h1 {
+  font-size: 24px;
+  margin: 5px 0;
+  color: #ffffff;
+}
+
+h3 {
+  font-size: 16px;
+  margin: 5px 0;
+  color: #d3d2d2;
 }
 </style>
