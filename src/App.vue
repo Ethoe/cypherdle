@@ -120,7 +120,7 @@ export default {
     },
     handleMobileInput(letter) {
       // Handle touch/click on virtual keyboard button
-      this.typedLetter = letter;
+      this.typedLetter = letter.toLowerCase();
       this.guessTable[this.typedLetter] = this.typedLetter;
       if (this.isLetter(this.currentSelection)) {
         this.guesses++;
