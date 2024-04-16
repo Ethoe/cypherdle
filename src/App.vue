@@ -82,9 +82,8 @@ export default {
   async created() {
     try {
       const response = await axios.get("https://ethoe.dev/api/quotes");
-      const quote = response.data[0].q; // Extract the quote from the response
+      var quote = response.data[0].q; // Extract the quote from the response
       this.cypher = response.data[0].a.length;
-      //var quote = "Hello!, Hello!, Hello!, Hello!, Hello!";
       const lettersString = quote.toLowerCase().replace(/[^a-zA-Z]/g, "");
       const uniqueLetters = Array.from(new Set(lettersString.split("")));
       this.minGuesses = Object.keys(uniqueLetters).length;
@@ -121,8 +120,8 @@ export default {
     handleMobileInput(letter) {
       // Handle touch/click on virtual keyboard button
       this.typedLetter = letter.toLowerCase();
-      this.guessTable[this.typedLetter] = this.typedLetter;
       if (this.isLetter(this.currentSelection)) {
+        this.guessTable[this.currentSelection] = this.typedLetter;
         this.guesses++;
       }
       this.checkAllLettersGuessed();
@@ -134,9 +133,9 @@ export default {
       event.preventDefault();
       const typedLetter = event.key.toLowerCase();
       if (this.isLetter(typedLetter)) {
-        this.typedLetter = typedLetter;
-        this.guessTable[this.typedLetter] = this.typedLetter;
         if (this.isLetter(this.currentSelection)) {
+          this.typedLetter = typedLetter;
+          this.guessTable[this.currentSelection] = this.typedLetter;
           this.guesses++;
         }
         this.checkAllLettersGuessed();
